@@ -96,17 +96,17 @@ void HandleTCPClient(int clntSocket) {
 
   buffer[totalBytes] = '\0';
 
-  if(strcmp("date", buffer) == 0 ){
+  if(strcmp("time", buffer) == 0 ){
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    strftime(buffer,80, "%T", timeinfo);
+    strftime(buffer,80, "%T %I:%M %p", timeinfo);
   }
-  else if(strcmp("time", buffer) == 0){
+  else if(strcmp("date", buffer) == 0){
     time(&rawtime);
     timeinfo = localtime(&rawtime);
-    strftime(buffer,80, "%F", timeinfo);
-  }
+    strftime(buffer,80, "%F: %B %d, %Y", timeinfo);
 
+  }
    ssize_t numBytesSent = send(clntSocket, buffer, strlen(buffer), 0);
    if (numBytesSent < 0)
       DieWithSystemMessage("send() failed");
